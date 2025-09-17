@@ -1,4 +1,5 @@
 class RouteName {
-  static const String homePage = "/";
+  static const String welcomePage = "/";
   static const String detail = "/detail";
+  static const String home = "/home";
 }

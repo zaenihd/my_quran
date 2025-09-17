@@ -6,6 +6,7 @@ class AppColor {
   static const bgAppBold = Color(0xff763FBC);
   static const bgAppLight = Color(0xff994EF8);
   static const whiteColor = Color(0xffFCFCFC);
+  static const greyColor = Color(0xffA8A8A8);
   static const blackColor = Color(0xff000000);
   
 }
