@@ -1,8 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:my_quran/data/model/quran_list_model.dart';
 import 'package:my_quran/helper/app_color.dart';
 import 'package:my_quran/helper/app_navigator.dart';
+import 'package:my_quran/helper/hive_const.dart';
+import 'package:my_quran/helper/hive_register.dart';
+import 'package:my_quran/pages/home/bloc/home_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final hiveRegister = HiveRegister();
+  // init hive setelah install package
+  await Hive.initFlutter();
+  hiveRegister.fetchRegisterSurat();
+  await Hive.openBox<QuranListModel>(QuranBoxName.quranBox);
+
   runApp(const MyApp());
 }
 
@@ -12,10 +25,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig :AppNavigator.router,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: AppColor.bgApp),
+    return MultiBlocProvider(
+      providers: [BlocProvider(create: (context) => HomeBloc())],
+      child: MaterialApp.router(
+        routerConfig: AppNavigator.router,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: AppColor.bgApp),
+        ),
       ),
     );
   }
