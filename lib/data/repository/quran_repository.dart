@@ -7,7 +7,7 @@ class QuranRepository {
     try {
       final respone = await apiService.getRequest("surat");
       final data = quranListModelFromJson(respone.toString());
-      return data.data;
+      return data;
     } catch (e) {
       return e.toString();
     }

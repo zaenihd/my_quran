@@ -7,6 +7,11 @@ sealed class HomeEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetQuranEvent extends HomeEvent {}
+class GetQuranEvent extends HomeEvent {
+   Box<QuranListModel> boxSurat;
+  GetQuranEvent({
+    required this.boxSurat,
+  });
+}
 class SwitchToQuranEvent extends HomeEvent {}
 class SwitchToDoaEvent extends HomeEvent {}

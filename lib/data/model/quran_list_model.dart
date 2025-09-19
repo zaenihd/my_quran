@@ -91,6 +91,8 @@ class Surat {
         "deskripsi": deskripsi,
         "audioFull": Map.from(audioFull!).map((k, v) => MapEntry<String, dynamic>(k, v)),
     };
+
+  void operator [](String other) {}
 }
 
 

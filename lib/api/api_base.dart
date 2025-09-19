@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 
 class ApiService {
@@ -23,6 +25,7 @@ class ApiService {
       Response response = await _dio.get(endpoint);
       return response;
     } catch (e) {
+      log("error : $e");
       rethrow;
     }
   }

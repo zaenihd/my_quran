@@ -9,4 +9,5 @@ class HiveTypeIdConst {
   static const int DETAIL_SURAT = 3;
   static const int DATA_SURAT_DETAIL = 4;
   static const int AYAT = 5;
+  static const int SURAT_SELANJUTNYA = 6;
 }

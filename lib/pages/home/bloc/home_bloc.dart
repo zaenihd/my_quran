@@ -2,8 +2,10 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hive/hive.dart';
 import 'package:my_quran/data/model/quran_list_model.dart';
 import 'package:my_quran/data/repository/quran_repository.dart';
+import 'package:my_quran/helper/hive_const.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -24,15 +26,26 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
 
     on<GetQuranEvent>((event, emit) async {
-      try {
-        emit(state.copyWith(isLoading: true));
-        List<Surat> surat = await quranRepo.getSurat();
-        emit(state.copyWith(listSurat: surat));
+      // event.boxSurat.delete(QuranBoxName.suratBox);
+      final suratData = event.boxSurat.get(QuranBoxName.quranBox) ;
+      emit(state.copyWith(isLoading: true));
+      log(suratData.toString());
+      if (suratData == null) {
+        try {
+          QuranListModel result = await quranRepo.getSurat();
+          emit(state.copyWith(listSurat: result.data));
+          event.boxSurat.put(QuranBoxName.quranBox, result);
+          emit(state.copyWith(isLoading: false));
+          log("ini dari API");
+        } catch (e) {
+          emit(state.copyWith(error: e.toString()));
+          emit(state.copyWith(isLoading: false));
+        }
+      } else {
+        // event.boxSurat.delete('suratData');
+        emit(state.copyWith(listSurat: suratData.data));
         emit(state.copyWith(isLoading: false));
-        log("berhasil");
-      } catch (e) {
-        emit(state.copyWith(error: e.toString()));
-        log("message == $e");
+        log("ini dari Database");
       }
     });
   }
