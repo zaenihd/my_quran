@@ -9,6 +9,6 @@ sealed class DetailEvent extends Equatable {
 
 class GetDetailSuratEvent extends DetailEvent{
   final String idSurat;
-
-  const GetDetailSuratEvent({required this.idSurat});
+  final Box<SuratDetailModel> boxDetailSurah;
+  const GetDetailSuratEvent({required this.idSurat, required this.boxDetailSurah});
 }

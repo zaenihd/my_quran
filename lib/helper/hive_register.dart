@@ -1,5 +1,6 @@
 
 import 'package:hive/hive.dart' show Hive;
+import 'package:my_quran/data/model/doa_model.dart';
 import 'package:my_quran/data/model/quran_list_model.dart';
 import 'package:my_quran/data/model/surat_detail_model.dart';
 
@@ -14,5 +15,10 @@ class HiveRegister {
     Hive.registerAdapter<SuratDetailModel>(SuratDetailModelAdapter());
     Hive.registerAdapter<DataSurat>(DataSuratAdapter());
     Hive.registerAdapter<Ayat>(AyatAdapter());
+  }
+
+  void fetchRegisterDoa(){
+    Hive.registerAdapter<DoaModel>(DoaModelAdapter());
+    Hive.registerAdapter<Doa>(DoaAdapter());
   }
 }

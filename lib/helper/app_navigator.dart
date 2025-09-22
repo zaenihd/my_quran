@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_quran/data/model/doa_model.dart';
 import 'package:my_quran/data/model/quran_list_model.dart';
 import 'package:my_quran/helper/route_name.dart';
 import 'package:my_quran/pages/detail/view/detail_page.dart';
+import 'package:my_quran/pages/doa/doa_page.dart';
 import 'package:my_quran/pages/home/view/home_page.dart';
 import 'package:my_quran/pages/welcome_page/view/welcome_page.dart';
 
@@ -24,7 +26,16 @@ class AppNavigator {
               final extra = state.extra as Surat;
               // final idInt = extra['surat'] as Surat;
 
-              return DetailPage(id: id, idInt: extra,);
+              return DetailPage(id: id, idInt: extra);
+            },
+          ),
+          GoRoute(
+            path: RoutePath.doa,
+            name: RouteName.doa,
+            builder: (BuildContext context, GoRouterState state) {
+              final extra = state.extra as Doa;
+              // final idInt = extra['surat'] as Surat;
+              return DoaPage(doa: extra);
             },
           ),
           GoRoute(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_quran/data/model/quran_list_model.dart';
 import 'package:my_quran/helper/app_color.dart';
+import 'package:my_quran/helper/hive_helper.dart';
 import 'package:my_quran/pages/detail/bloc/detail_bloc.dart';
 import 'package:my_quran/widget/container/cntr.dart';
 import 'package:my_quran/widget/text/txt.dart';
@@ -17,7 +18,7 @@ class DetailPage extends StatefulWidget {
 class _DetailPageState extends State<DetailPage> {
   @override
   void initState() {
-    context.read<DetailBloc>().add(GetDetailSuratEvent(idSurat: widget.id));
+    context.read<DetailBloc>().add(GetDetailSuratEvent(idSurat: widget.id, boxDetailSurah: HiveHelper.getDetailSurat()));
     print(widget.id);
     print(widget.idInt.arti);
     super.initState();

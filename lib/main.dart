@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:my_quran/data/model/doa_model.dart';
 import 'package:my_quran/data/model/quran_list_model.dart';
 import 'package:my_quran/data/model/surat_detail_model.dart';
 import 'package:my_quran/helper/app_color.dart';
@@ -17,9 +18,10 @@ void main() async {
   await Hive.initFlutter();
   hiveRegister.fetchRegisterSurat();
   hiveRegister.fetchRegisterDetailSurat();
+  hiveRegister.fetchRegisterDoa();
   await Hive.openBox<QuranListModel>(QuranBoxName.quranBox);
-  // await Hive.openBox<List<Surat>>(QuranBoxName.suratBox);
   await Hive.openBox<SuratDetailModel>(QuranBoxName.suratDetailBox);
+  await Hive.openBox<DoaModel>(QuranBoxName.doaBox);
 
   runApp(const MyApp());
 }
@@ -34,7 +36,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => HomeBloc()),
         BlocProvider(create: (context) => DetailBloc()),
-        ],
+      ],
       child: MaterialApp.router(
         routerConfig: AppNavigator.router,
         theme: ThemeData(

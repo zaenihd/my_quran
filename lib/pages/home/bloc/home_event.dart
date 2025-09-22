@@ -13,5 +13,13 @@ class GetQuranEvent extends HomeEvent {
     required this.boxSurat,
   });
 }
+
+class GetDoaEvent extends HomeEvent {
+   Box<DoaModel> boxDoa;
+  GetDoaEvent({
+    required this.boxDoa,
+  });
+}
+
 class SwitchToQuranEvent extends HomeEvent {}
 class SwitchToDoaEvent extends HomeEvent {}

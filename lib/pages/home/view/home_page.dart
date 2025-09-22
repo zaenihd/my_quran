@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_quran/data/model/doa_model.dart';
 import 'package:my_quran/data/model/quran_list_model.dart';
 import 'package:my_quran/helper/app_color.dart';
 import 'package:my_quran/helper/app_images_url.dart';
-import 'package:my_quran/helper/hivr_helper.dart';
+import 'package:my_quran/helper/hive_helper.dart';
 import 'package:my_quran/helper/route_name.dart';
 import 'package:my_quran/pages/home/bloc/home_bloc.dart';
 import 'package:my_quran/widget/container/cntr.dart';
@@ -20,7 +21,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    context.read<HomeBloc>().add(GetQuranEvent(boxSurat: HiveHelper.getAllSurat()));
+    context.read<HomeBloc>().add(
+      GetQuranEvent(boxSurat: HiveHelper.getAllSurat()),
+    );
+    context.read<HomeBloc>().add(GetDoaEvent(boxDoa: HiveHelper.getDoa()));
     super.initState();
   }
 
@@ -63,14 +67,23 @@ class _HomePageState extends State<HomePage> {
           Cntr(
             height: MediaQuery.sizeOf(context).height / 1.8,
             radius: BorderRadius.circular(10),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  for (var i = 0; i < state.listSurat!.length; i++)
-                    _surat(context, i, state.listSurat!),
-                ],
-              ),
-            ),
+            child: state.isDoa
+                ? SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        for (var i = 0; i < state.listDoa!.length; i++)
+                          _doa(context, i, state.listDoa!),
+                      ],
+                    ),
+                  )
+                : SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        for (var i = 0; i < state.listSurat!.length; i++)
+                          _surat(context, i, state.listSurat!),
+                      ],
+                    ),
+                  ),
           ),
         ],
       );
@@ -100,8 +113,7 @@ class _HomePageState extends State<HomePage> {
               context.goNamed(
                 RouteName.detail,
                 pathParameters: {"idSurat": listSurat[index].nomor.toString()},
-                extra: listSurat[index]
-                ,
+                extra: listSurat[index],
               );
             },
             boxShadow: [
@@ -125,15 +137,15 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Cntr(
                       alignment: Alignment.center,
-                      child: Txt(
-                        text: "${index + 1}",
-                        weight: FontWeight.bold,
-                        color: AppColor.bgAppBlack,
-                      ),
                       height: 36,
                       width: 36,
                       image: DecorationImage(
                         image: AssetImage(AppImagesUrl.ayat),
+                      ),
+                      child: Txt(
+                        text: "${index + 1}",
+                        weight: FontWeight.bold,
+                        color: AppColor.bgAppBlack,
                       ),
                     ),
                     const SizedBox(width: 10.0),
@@ -172,41 +184,106 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  _doa(BuildContext context, int index, List<Doa> listDoa) {
+    final surat = listDoa[index];
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 19),
+      child: Row(
+        children: [
+          Cntr(
+            width: 10,
+            height: 65,
+            color: AppColor.bgApp,
+            radius: BorderRadius.circular(20),
+          ),
+          const SizedBox(width: 10.0),
+          Cntr(
+            ontap: () {
+              context.goNamed(RouteName.doa, extra: listDoa[index]);
+            },
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withValues(alpha: 0.5),
+                spreadRadius: 1,
+                blurRadius: 7,
+                offset: Offset(0, 4), // changes position of shadow
+              ),
+            ],
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            height: 65,
+            radius: BorderRadius.circular(10),
+            width: MediaQuery.sizeOf(context).width / 1.18,
+            color: AppColor.whiteColor,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width / 1.4,
+                  child: Txt(
+                    textOverFlow: TextOverflow.clip,
+                    maxLines: 2,
+                    text: surat.judul,
+                    weight: FontWeight.w500,
+                    size: 16,
+                    color: AppColor.bgAppBlack,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Row _category(BuildContext context, HomeState state) {
     final isDoa = state.isDoa;
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Cntr(
-          ontap: () {
-            context.read<HomeBloc>().add(SwitchToQuranEvent());
-          },
-          child: Txt(
-            text: 'Surat',
-            color: isDoa == false ? AppColor.whiteColor : AppColor.blackColor,
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          radius: BorderRadius.circular(15),
-          color: isDoa == false ? AppColor.bgApp : AppColor.whiteColor,
+        Row(
+          children: [
+            Cntr(
+              ontap: () {
+                context.read<HomeBloc>().add(SwitchToQuranEvent());
+              },
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+              radius: BorderRadius.circular(15),
+              color: isDoa == false ? AppColor.bgApp : AppColor.whiteColor,
 
-          border: Border.all(
-            color: isDoa == false ? AppColor.bgApp : AppColor.blackColor,
-          ),
+              border: Border.all(
+                color: isDoa == false ? AppColor.bgApp : AppColor.blackColor,
+              ),
+              child: Txt(
+                text: 'Surat',
+                color: isDoa == false
+                    ? AppColor.whiteColor
+                    : AppColor.blackColor,
+              ),
+            ),
+            const SizedBox(width: 10.0),
+            Cntr(
+              ontap: () {
+                context.read<HomeBloc>().add(SwitchToDoaEvent());
+              },
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+              radius: BorderRadius.circular(15),
+              color: isDoa ? AppColor.bgApp : AppColor.whiteColor,
+              border: Border.all(
+                color: isDoa ? AppColor.bgApp : AppColor.blackColor,
+              ),
+              child: Txt(
+                text: 'Doa',
+                color: isDoa ? AppColor.whiteColor : AppColor.blackColor,
+              ),
+            ),
+          ],
         ),
-        const SizedBox(width: 10.0),
-        Cntr(
-          ontap: () {
-            context.read<HomeBloc>().add(SwitchToDoaEvent());
-          },
-          child: Txt(
-            text: 'Doa',
-            color: isDoa ? AppColor.whiteColor : AppColor.blackColor,
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          radius: BorderRadius.circular(15),
-          color: isDoa ? AppColor.bgApp : AppColor.whiteColor,
-          border: Border.all(
-            color: isDoa ? AppColor.bgApp : AppColor.blackColor,
-          ),
+        // IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+        InkWell(
+          onTap: () {},
+          child: Icon(Icons.search, color: AppColor.bgApp),
         ),
       ],
     );
@@ -236,10 +313,10 @@ class _HomePageState extends State<HomePage> {
             Txt(text: "Ramadan 23, 1444 AH", weight: FontWeight.bold, size: 10),
             const SizedBox(height: 10.0),
             Cntr(
-              child: Txt(text: 'Shubuh 4:17', color: AppColor.whiteColor),
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               radius: BorderRadius.circular(5),
               color: AppColor.bgApp,
+              child: Txt(text: 'Shubuh 4:17', color: AppColor.whiteColor),
             ),
           ],
         ),
@@ -281,10 +358,10 @@ class _HomePageState extends State<HomePage> {
             Txt(text: "Ramadan 23, 1444 AH", weight: FontWeight.bold, size: 10),
             const SizedBox(height: 10.0),
             Cntr(
-              child: Txt(text: 'Shubuh 4:17', color: AppColor.whiteColor),
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               radius: BorderRadius.circular(5),
               color: AppColor.bgApp,
+              child: Txt(text: 'Shubuh 4:17', color: AppColor.whiteColor),
             ),
           ],
         ),
