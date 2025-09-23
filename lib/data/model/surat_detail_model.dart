@@ -6,7 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:meta/meta.dart';
 import 'dart:convert';
 
-import 'package:my_quran/helper/hype_type_id.dart';
+import 'package:my_quran/helper/hive/hype_type_id.dart';
 part 'surat_detail_model.g.dart';
 
 SuratDetailModel suratDetailModelFromJson(String str) => SuratDetailModel.fromJson(json.decode(str));

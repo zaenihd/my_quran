@@ -6,7 +6,7 @@ import 'package:hive/hive.dart';
 import 'package:my_quran/data/model/doa_model.dart';
 import 'package:my_quran/data/model/quran_list_model.dart';
 import 'package:my_quran/data/repository/quran_repository.dart';
-import 'package:my_quran/helper/hive_const.dart';
+import 'package:my_quran/helper/hive/hive_const.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';

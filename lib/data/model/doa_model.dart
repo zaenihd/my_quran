@@ -4,7 +4,7 @@
 
 import 'package:hive_flutter/adapters.dart';
 import 'dart:convert';
-import 'package:my_quran/helper/hype_type_id.dart';
+import 'package:my_quran/helper/hive/hype_type_id.dart';
 part 'doa_model.g.dart';
 
 DoaModel doaModelFromJson(String str) => DoaModel.fromJson(json.decode(str));

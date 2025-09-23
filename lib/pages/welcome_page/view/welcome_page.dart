@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_quran/helper/app_color.dart';
 import 'package:my_quran/helper/app_images_url.dart';
-import 'package:my_quran/helper/app_navigator.dart';
-import 'package:my_quran/helper/route_name.dart';
+import 'package:my_quran/helper/navigator/app_navigator.dart';
+import 'package:my_quran/helper/navigator/route_name.dart';
 import 'package:my_quran/widget/button/button.dart';
 import 'package:my_quran/widget/text/txt.dart';
 

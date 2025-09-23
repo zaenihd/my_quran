@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:my_quran/helper/hype_type_id.dart';
+import 'package:my_quran/helper/hive/hype_type_id.dart';
 import 'package:hive_flutter/adapters.dart';
 part 'quran_list_model.g.dart';
 

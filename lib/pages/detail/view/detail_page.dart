@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_quran/data/model/quran_list_model.dart';
 import 'package:my_quran/helper/app_color.dart';
-import 'package:my_quran/helper/hive_helper.dart';
+import 'package:my_quran/helper/hive/hive_helper.dart';
 import 'package:my_quran/pages/detail/bloc/detail_bloc.dart';
 import 'package:my_quran/widget/container/cntr.dart';
 import 'package:my_quran/widget/text/txt.dart';
@@ -86,9 +86,9 @@ class _DetailPageState extends State<DetailPage> {
                 height: 30,
                 width: 30,
                 color: AppColor.bgAppLight,
+                radius: BorderRadius.circular(100),
                 // child: Icon(Icons.play_arrow, size: 20, color: AppColor.whiteColor,),
                 child: Txt(text: "${index + 1}", color: AppColor.whiteColor),
-                radius: BorderRadius.circular(100),
               ),
               Row(
                 children: [

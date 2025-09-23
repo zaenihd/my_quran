@@ -4,12 +4,13 @@ import 'package:my_quran/data/model/doa_model.dart';
 import 'package:my_quran/data/model/quran_list_model.dart';
 import 'package:my_quran/data/model/surat_detail_model.dart';
 import 'package:my_quran/helper/app_color.dart';
-import 'package:my_quran/helper/app_navigator.dart';
-import 'package:my_quran/helper/hive_const.dart';
-import 'package:my_quran/helper/hive_register.dart';
+import 'package:my_quran/helper/navigator/app_navigator.dart';
+import 'package:my_quran/helper/hive/hive_const.dart';
+import 'package:my_quran/helper/hive/hive_register.dart';
 import 'package:my_quran/pages/detail/bloc/detail_bloc.dart';
 import 'package:my_quran/pages/home/bloc/home_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_quran/pages/search/cubit/search_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => HomeBloc()),
         BlocProvider(create: (context) => DetailBloc()),
+        BlocProvider(create: (context) => SearchCubit()),
       ],
       child: MaterialApp.router(
         routerConfig: AppNavigator.router,

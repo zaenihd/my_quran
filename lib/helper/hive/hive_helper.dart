@@ -2,7 +2,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:my_quran/data/model/doa_model.dart';
 import 'package:my_quran/data/model/quran_list_model.dart';
 import 'package:my_quran/data/model/surat_detail_model.dart';
-import 'package:my_quran/helper/hive_const.dart';
+import 'package:my_quran/helper/hive/hive_const.dart';
 
 class HiveHelper {
   static Box<QuranListModel> getAllSurat() =>

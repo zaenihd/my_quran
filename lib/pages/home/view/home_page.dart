@@ -5,8 +5,9 @@ import 'package:my_quran/data/model/doa_model.dart';
 import 'package:my_quran/data/model/quran_list_model.dart';
 import 'package:my_quran/helper/app_color.dart';
 import 'package:my_quran/helper/app_images_url.dart';
-import 'package:my_quran/helper/hive_helper.dart';
-import 'package:my_quran/helper/route_name.dart';
+import 'package:my_quran/helper/hive/hive_helper.dart';
+import 'package:my_quran/helper/navigator/app_navigator.dart';
+import 'package:my_quran/helper/navigator/route_name.dart';
 import 'package:my_quran/pages/home/bloc/home_bloc.dart';
 import 'package:my_quran/widget/container/cntr.dart';
 import 'package:my_quran/widget/text/txt.dart';
@@ -282,7 +283,9 @@ class _HomePageState extends State<HomePage> {
         ),
         // IconButton(onPressed: () {}, icon: Icon(Icons.search)),
         InkWell(
-          onTap: () {},
+          onTap: () {
+            context.goNamed(RouteName.search, extra: state.listSurat);
+          },
           child: Icon(Icons.search, color: AppColor.bgApp),
         ),
       ],
