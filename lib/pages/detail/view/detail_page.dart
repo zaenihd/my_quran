@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_quran/data/model/quran_list_model.dart';
@@ -8,20 +9,34 @@ import 'package:my_quran/widget/container/cntr.dart';
 import 'package:my_quran/widget/text/txt.dart';
 
 class DetailPage extends StatefulWidget {
-  const DetailPage({super.key, required this.id, required this.idInt});
+  const DetailPage({super.key, required this.id});
   final String id;
-  final Surat idInt;
+
   @override
   State<DetailPage> createState() => _DetailPageState();
 }
 
 class _DetailPageState extends State<DetailPage> {
+  late AudioPlayer player = AudioPlayer();
+
   @override
   void initState() {
-    context.read<DetailBloc>().add(GetDetailSuratEvent(idSurat: widget.id, boxDetailSurah: HiveHelper.getDetailSurat()));
-    print(widget.id);
-    print(widget.idInt.arti);
+    player = AudioPlayer();
+    context.read<DetailBloc>().add(
+      GetDetailSuratEvent(
+        idSurat: widget.id,
+        boxDetailSurah: HiveHelper.getDetailSurat(),
+      ),
+    );
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    player.dispose();
+    player.stop();
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
@@ -94,7 +109,20 @@ class _DetailPageState extends State<DetailPage> {
                 children: [
                   Icon(Icons.share_outlined, color: AppColor.bgAppLight),
                   const SizedBox(width: 10),
-                  Icon(Icons.play_arrow_outlined, color: AppColor.bgAppLight),
+                  InkWell(
+                    onTap: () async {
+                      await player.play(
+
+                        UrlSource(
+                          '${state.suratDetail!.data.ayat[index].audio['02']}',
+                        ),
+                      );
+                    },
+                    child: Icon(
+                      Icons.play_arrow_outlined,
+                      color: AppColor.bgAppLight,
+                    ),
+                  ),
                   const SizedBox(width: 10),
                   Icon(
                     Icons.bookmark_border_outlined,

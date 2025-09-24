@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:my_quran/data/model/doa_model.dart';
 import 'package:my_quran/data/model/quran_list_model.dart';
 import 'package:my_quran/helper/app_color.dart';
@@ -20,14 +23,41 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late String _timeString;
+  late Timer _timer;
+
+  String _formatDateTime(DateTime dateTime) {
+    return DateFormat('HH:mm').format(dateTime);
+  }
+
+  void _getTime() {
+    final DateTime now = DateTime.now();
+    final String formattedDateTime = _formatDateTime(now);
+    setState(() {
+      _timeString = formattedDateTime;
+    });
+  }
+
   @override
   void initState() {
     context.read<HomeBloc>().add(
       GetQuranEvent(boxSurat: HiveHelper.getAllSurat()),
     );
     context.read<HomeBloc>().add(GetDoaEvent(boxDoa: HiveHelper.getDoa()));
+    _timeString = _formatDateTime(DateTime.now());
+    _timer = Timer.periodic(
+      const Duration(minutes: 1),
+      (Timer t) => _getTime(),
+    );
     super.initState();
   }
+
+    @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +144,6 @@ class _HomePageState extends State<HomePage> {
               context.goNamed(
                 RouteName.detail,
                 pathParameters: {"idSurat": listSurat[index].nomor.toString()},
-                extra: listSurat[index],
               );
             },
             boxShadow: [
@@ -308,12 +337,12 @@ class _HomePageState extends State<HomePage> {
             ),
             Txt(text: "Baca Al-Quran Dengan\nMudah"),
             Txt(
-              text: "19:20",
+              text: _timeString,
               size: 36,
               color: AppColor.blackColor,
               weight: FontWeight.bold,
             ),
-            Txt(text: "Ramadan 23, 1444 AH", weight: FontWeight.bold, size: 10),
+            // Txt(text: "Ramadan 23, 1444 AH", weight: FontWeight.bold, size: 10),
             const SizedBox(height: 10.0),
             Cntr(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
@@ -353,12 +382,11 @@ class _HomePageState extends State<HomePage> {
             ),
             Txt(text: "Baca Doa-Doa"),
             Txt(
-              text: "19:20",
+              text: _timeString,
               size: 36,
               color: AppColor.blackColor,
               weight: FontWeight.bold,
             ),
-            Txt(text: "Ramadan 23, 1444 AH", weight: FontWeight.bold, size: 10),
             const SizedBox(height: 10.0),
             Cntr(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),

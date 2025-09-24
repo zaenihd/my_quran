@@ -31,7 +31,6 @@ class DetailBloc extends Bloc<DetailEvent, DetailState> {
           emit(state.copyWith(suratDetail: dataDetailSurah));
           log("Ini dari DataBase HIVE yaa");
 
-          ;
         }
       } catch (e) {
         emit(state.copyWith(error: e.toString()));

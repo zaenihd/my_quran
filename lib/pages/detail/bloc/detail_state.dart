@@ -6,7 +6,7 @@ class DetailState extends Equatable {
   final bool isLoading;
   final String error;
 
-  DetailState({this.suratDetail, this.isLoading = false, this.error = ""});
+  const DetailState({this.suratDetail, this.isLoading = false, this.error = ""});
 
   @override
   List<Object?> get props => [suratDetail, isLoading, error];

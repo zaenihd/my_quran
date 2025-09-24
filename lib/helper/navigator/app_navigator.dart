@@ -23,10 +23,9 @@ class AppNavigator {
             name: RouteName.detail,
             builder: (BuildContext context, GoRouterState state) {
               final id = state.pathParameters['idSurat']!;
-              final extra = state.extra as Surat;
               // final idInt = extra['surat'] as Surat;
 
-              return DetailPage(id: id, idInt: extra);
+              return DetailPage(id: id);
             },
           ),
           GoRoute(

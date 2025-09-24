@@ -12,3 +12,6 @@ class GetDetailSuratEvent extends DetailEvent{
   final Box<SuratDetailModel> boxDetailSurah;
   const GetDetailSuratEvent({required this.idSurat, required this.boxDetailSurah});
 }
+
+class PlayAudioEvent extends DetailEvent {
+}
