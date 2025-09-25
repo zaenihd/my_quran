@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 import 'package:my_quran/data/model/doa_model.dart';
+import 'package:my_quran/data/model/jadwal_solat.dart';
 import 'package:my_quran/data/model/quran_list_model.dart';
 import 'package:my_quran/data/repository/quran_repository.dart';
 import 'package:my_quran/helper/hive/hive_const.dart';
@@ -46,6 +47,21 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(state.copyWith(listSurat: suratData.data));
         emit(state.copyWith(isLoading: false));
         log("ini dari Database looh");
+      }
+    });
+
+    on<GetJadwalSolatEvent>((event, emit) async {
+      emit(state.copyWith(isLoading: true));
+      try {
+        JadwalSolatModel result = await quranRepo.getJadwalSolat(
+          cityId: event.cityId,
+        );
+        emit(state.copyWith(jadwalSolat: result));
+        emit(state.copyWith(isLoading: false));
+      } catch (e) {
+        emit(state.copyWith(error: e.toString()));
+        emit(state.copyWith(isLoading: false));
+        log("gagal $e");
       }
     });
 

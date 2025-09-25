@@ -8,18 +8,21 @@ sealed class HomeEvent extends Equatable {
 }
 
 class GetQuranEvent extends HomeEvent {
-   Box<QuranListModel> boxSurat;
-  GetQuranEvent({
-    required this.boxSurat,
-  });
+  Box<QuranListModel> boxSurat;
+  GetQuranEvent({required this.boxSurat});
 }
 
 class GetDoaEvent extends HomeEvent {
-   Box<DoaModel> boxDoa;
-  GetDoaEvent({
-    required this.boxDoa,
-  });
+  Box<DoaModel> boxDoa;
+  GetDoaEvent({required this.boxDoa});
+}
+
+class GetJadwalSolatEvent extends HomeEvent {
+  final String cityId;
+
+  const GetJadwalSolatEvent({required this.cityId});
 }
 
 class SwitchToQuranEvent extends HomeEvent {}
+
 class SwitchToDoaEvent extends HomeEvent {}

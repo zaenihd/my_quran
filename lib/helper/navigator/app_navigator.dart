@@ -6,6 +6,7 @@ import 'package:my_quran/helper/navigator/route_name.dart';
 import 'package:my_quran/pages/detail/view/detail_page.dart';
 import 'package:my_quran/pages/doa/doa_page.dart';
 import 'package:my_quran/pages/home/view/home_page.dart';
+import 'package:my_quran/pages/jadwal_solat/views/jadwal_solat.dart';
 import 'package:my_quran/pages/search/view/search_page.dart';
 
 class AppNavigator {
@@ -50,6 +51,13 @@ class AppNavigator {
             builder: (BuildContext context, GoRouterState state) {
               final extra = state.extra as List<Surat>;
               return SearchPage(surat: extra);
+            },
+          ),
+          GoRoute(
+            path: RoutePath.jadwalSolat,
+            name: RouteName.jadwalSolat,
+            builder: (BuildContext context, GoRouterState state) {
+              return JadwalSolatPage();
             },
           ),
         ],

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:my_quran/data/model/doa_model.dart';
+import 'package:my_quran/data/model/jadwal_solat.dart';
 import 'package:my_quran/data/model/quran_list_model.dart';
 import 'package:my_quran/helper/app_color.dart';
 import 'package:my_quran/helper/app_images_url.dart';
@@ -44,6 +45,7 @@ class _HomePageState extends State<HomePage> {
       GetQuranEvent(boxSurat: HiveHelper.getAllSurat()),
     );
     context.read<HomeBloc>().add(GetDoaEvent(boxDoa: HiveHelper.getDoa()));
+    context.read<HomeBloc>().add(GetJadwalSolatEvent(cityId: "1"));
     _timeString = _formatDateTime(DateTime.now());
     _timer = Timer.periodic(
       const Duration(minutes: 1),
@@ -52,12 +54,11 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-    @override
+  @override
   void dispose() {
     _timer.cancel();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +70,9 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                state.isDoa == false ? _headerQuran() : _headerDoa(),
+                state.isDoa == false
+                    ? _headerQuran(state.jadwalSolat!)
+                    : _headerDoa(),
                 const SizedBox(height: 20.0),
                 Txt(text: "Kategori", weight: FontWeight.bold, size: 16),
                 const SizedBox(height: 10.0),
@@ -321,7 +324,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Row _headerQuran() {
+  Row _headerQuran(JadwalSolatModel jadwalSolat) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -345,10 +348,16 @@ class _HomePageState extends State<HomePage> {
             // Txt(text: "Ramadan 23, 1444 AH", weight: FontWeight.bold, size: 10),
             const SizedBox(height: 10.0),
             Cntr(
+              ontap: () {
+                context.pushNamed(RouteName.jadwalSolat);
+              },
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               radius: BorderRadius.circular(5),
               color: AppColor.bgApp,
-              child: Txt(text: 'Shubuh 4:17', color: AppColor.whiteColor),
+              child: Txt(
+                text: jadwalSolat.data.data.adzan.isya,
+                color: AppColor.whiteColor,
+              ),
             ),
           ],
         ),
@@ -389,6 +398,9 @@ class _HomePageState extends State<HomePage> {
             ),
             const SizedBox(height: 10.0),
             Cntr(
+              ontap: () {
+                context.pushNamed(RouteName.jadwalSolat);
+              },
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               radius: BorderRadius.circular(5),
               color: AppColor.bgApp,

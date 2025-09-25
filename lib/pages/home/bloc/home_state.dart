@@ -4,6 +4,7 @@ part of 'home_bloc.dart';
 class HomeState extends Equatable {
   final List<Surat>? listSurat;
   final List<Doa>? listDoa;
+  final JadwalSolatModel? jadwalSolat;
   final bool isLoading;
   final bool isDoa;
   final String error;
@@ -11,17 +12,19 @@ class HomeState extends Equatable {
   const HomeState({
     this.listSurat,
     this.listDoa,
+    this.jadwalSolat,
     this.isLoading = false,
-    this.error = "",
     this.isDoa = false,
+    this.error = "",
   });
 
   @override
-  List<Object?> get props => [listSurat, listDoa, isDoa, isLoading, error];
+  List<Object?> get props => [listSurat, listDoa, isDoa, isLoading, error, jadwalSolat];
 
   HomeState copyWith({
     List<Surat>? listSurat,
     List<Doa>? listDoa,
+    JadwalSolatModel? jadwalSolat,
     bool? isLoading,
     bool? isDoa,
     String? error,
@@ -29,6 +32,7 @@ class HomeState extends Equatable {
     return HomeState(
       listSurat: listSurat ?? this.listSurat,
       listDoa: listDoa ?? this.listDoa,
+      jadwalSolat: jadwalSolat ?? this.jadwalSolat,
       isLoading: isLoading ?? this.isLoading,
       isDoa: isDoa ?? this.isDoa,
       error: error ?? this.error,
